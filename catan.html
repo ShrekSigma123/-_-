@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Колонизаторы Catan - Математика в играх</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #00d4aa;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg-primary);
+            font-family: 'Inter var', system-ui, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .layout { max-width: 1400px; margin: 0 auto; padding: 2rem; display: flex; gap: 3rem; }
+        .nav { position: sticky; top: 2rem; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); min-width: 200px; }
+        .nav a { display: block; color: var(--text-secondary); text-decoration: none; padding: 0.75rem 1rem; border-radius: 12px; transition: var(--transition); font-size: 0.95rem; }
+        .nav a:hover, .nav a.active { background: var(--accent); color: var(--bg-primary); }
+
+        .content { flex: 1; background: var(--glass); backdrop-filter: blur(20px); border-radius: var(--radius); border: 1px solid var(--border); padding: 3rem; box-shadow: var(--shadow); }
+        h1 { font-size: 3rem; background: linear-gradient(135deg, var(--accent), #00ff88); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 2rem; }
+        h2 { margin: 3rem 0 1.5rem; position: relative; font-size: 1.8rem; }
+        h2::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 50px; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+        p { margin-bottom: 1.5rem; color: var(--text-secondary); }
+        ul { margin: 1rem 0 1.5rem 2rem; }
+        li { margin-bottom: 0.5rem; }
+        strong { color: var(--text-primary); }
+
+        @media (max-width: 900px) { .layout { flex-direction: column; } .nav { position: relative; } }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <nav class="nav">
+            <a href="index.html">🏠 Главная</a>
+            <a href="basics.html">📚 Основы</a>
+            <a href="dice.html">🎲 Кубики</a>
+            <a href="catan.html" class="active">🏝️ Catan</a>
+            <a href="rng.html">💻 RNG</a>
+            <a href="crit.html">⚔️ Криты</a>
+            <a href="gametheory.html">♟️ Теория игр</a>
+            <a href="paradoxes.html">🪙 Парадоксы</a>
+            <a href="simulation.html">🐍 Python</a>
+        </nav>
+
+        <main class="content">
+            <h1>🏝️ Стратегии в «Колонизаторах»</h1>
+
+            <section>
+                <h2>Стратегии в настольных играх с элементами случайности («Колонизаторы»)</h2>
+                <p>«Колонизаторы» (Catan) — классическая настольная игра, где игроки строят поселения и города, собирая ресурсы с гексов, на которые выпадает номер. На каждом гексе написано число от 2 до 12 (кроме 7), и когда при броске двух кубиков выпадает это число, все игроки, имеющие поселение рядом с гексом, получают соответствующий ресурс. Распределение вероятностей сумм — то самое треугольное из раздела про кубики. Поэтому числа 6 и 8 встречаются чаще (\( \frac{5}{36} \) каждый), чем 5 и 9 (\( \frac{4}{36} \)), и тем более чем 4 и 10 (\( \frac{3}{36} \)), 3 и 11 (\( \frac{2}{36} \)), 2 и 12 (\( \frac{1}{36} \)).</p>
+
+                <p><strong>Оптимальное размещение поселений.</strong> В начале игры каждый игрок ставит два поселения. Математическая стратегия проста: нужно выбирать места, где сумма вероятностей выпадения ресурсов максимальна. Например, если поставить поселение на пересечении трёх гексов с числами 6, 8 и 5, то среднее количество ресурсов за бросок составит \( \frac{5}{36} + \frac{5}{36} + \frac{4}{36} = \frac{14}{36} \approx 0,389 \) ресурса. Если же взять гексы с числами 2, 12 и 3, то \( \frac{1+1+2}{36} = \frac{4}{36} \approx 0,111 \) — почти в 3,5 раза меньше.</p>
+
+                <p>Но есть нюансы: число 7 не даёт ресурсов, а при выпадении 7 активируется «вор», который крадёт ресурсы. Поэтому иногда имеет смысл избегать слишком высокой концентрации поселений на популярных числах, чтобы не привлекать внимание вора. Кроме того, нужно учитывать редкость ресурсов (например, камень или руда могут быть нужнее дерева).</p>
+
+                <p><strong>Базовая рекомендация:</strong> в начале игры всегда ставьте поселения на комбинации с наибольшей вероятностью. Опытные игроки используют таблицы вероятностей для планирования расширения — например, строят дорогу к гексу с числом 6, даже если он далёк.</p>
+
+                <p>Ещё один аспект — стратегия развития в зависимости от хода игры. Если вы видите, что ваши числа выпадают реже теоретического (у вас серия неудач), не стоит паниковать — закон больших чисел со временем выровняет частоту, но партия может кончиться раньше. Рациональнее адаптироваться: строить порты для обмена ресурсами или пытаться захватить новые поселения с другими числами.</p>
+
+                <p>Математика не гарантирует победу в одной игре, но на дистанции из многих партий игрок, использующий вероятностные расчёты, будет выигрывать чаще всех.</p>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
+
